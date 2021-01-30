@@ -56,13 +56,17 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "qterminal", NULL };
+static const char *dmenucmd[] = { "p_dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static const char *termcmd[]  = { "konsole", NULL };
 static const char *browser[]  = { "firefox", NULL };
-static const char *private_browser[]  = { "firefox -private", NULL };
+static const char *private_browser[]  = { "firefox", "-private", NULL };
 static const char *sublime[]  = { "subl", NULL };
 static const char *idea[]  = { "idea", NULL };
 static const char *texstudio[]  = { "texstudio", NULL };
+static const char *nautilus[]  = { "nautilus", NULL };
+static const char *printscreen[]  = { "scrot", "-d3", "/home/p/Screenshots/%Y-%m-%d-%s_$wx$h.jpg", NULL };
+static const char *printscreeninteractive[]  = { "scrot", "-d3", "-s", "/home/p/Screenshots/%Y-%m-%d-%s_$wx$h.jpg", NULL };
+static const char *poweroff[]  = { "systemctl", "poweroff", "-i", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -73,6 +77,9 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_s,      spawn,          {.v = sublime } },
 	{ MODKEY|ShiftMask,             XK_i,      spawn,          {.v = idea } },
 	{ MODKEY|ShiftMask,             XK_t,      spawn,          {.v = texstudio } },
+	{ MODKEY|ShiftMask,             XK_n,      spawn,          {.v = nautilus } },
+	{ 0,                    0xfd1d,    spawn,          {.v = printscreen } }, // XK_3270_PrintScreen doesn't work??
+	{ ShiftMask,            0xfd1d,    spawn,          {.v = printscreeninteractive } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -104,6 +111,7 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	{ MODKEY|ShiftMask|ControlMask, XK_q,      spawn,          {.v = poweroff } },
 };
 
 /* button definitions */
